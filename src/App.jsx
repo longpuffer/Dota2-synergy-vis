@@ -28,7 +28,7 @@ function App() {
       };
     }
     setNodesData(nodes.slice())
-    
+    //git test
     const startSimulation = (nodes,links)=>{
       const simulation=d3.forceSimulation().force("collide",d3.forceCollide().radius(30).iterations(32) ).force("link",d3.forceLink().id(d=>d.id).iterations(1) )
       simulation.nodes(nodes).on("tick",setNodesData(nodes.slice()))
