@@ -35,30 +35,33 @@ function App() {
       text: "Node6",
     },
   ]);
-  const [linksData, setLinksData] = useState([]);
+  const [linksData, setLinksData] = useState([
+    { source: 0, target: 1, len: 30 },
+    { source: 0, target: 2, len: 45 },
+    { source: 0, target: 3, len: 79 },
+    { source: 0, target: 4, len: 90 },
+    { source: 0, target: 5, len: 39 },
+    { source: 0, target: 6, len: 82 },
+    { source: 1, target: 2, len: 55 },
+    { source: 1, target: 3, len: 43 },
+    { source: 1, target: 4, len: 91 },
+    { source: 1, target: 5, len: 13 },
+    { source: 1, target: 6, len: 43 },
+    { source: 2, target: 3, len: 56 },
+    { source: 2, target: 4, len: 78 },
+    { source: 2, target: 5, len: 32 },
+    { source: 2, target: 6, len: 45 },
+    { source: 3, target: 4, len: 67 },
+    { source: 3, target: 5, len: 21 },
+    { source: 3, target: 6, len: 67 },
+    { source: 4, target: 5, len: 21 },
+    { source: 4, target: 6, len: 56 },
+    { source: 5, target: 6, len: 21 },
+  ]);
   const width = 600;
   const height = 600;
 
   useEffect(() => {
-    const nodes = new Array(7);
-    for (let i = 0; i < 7; i++) {
-      nodes[i] = {
-        id: i,
-        x: width * Math.random(),
-        y: height * Math.random(),
-        r: 30,
-        text: "Node" + i,
-      };
-    }
-    for (let i = 0; i < 7; i++) {
-      for (let j = i + 1; j < 7; j++) {
-        linksData.push({
-          source: i,
-          target: j,
-        });
-      }
-    }
-    setNodesData(nodes.slice());
     const startSimulation = (nodes, links) => {
       const simulation = d3
         .forceSimulation(nodes)
@@ -103,7 +106,6 @@ function App() {
     };
     startSimulation(nodesData, linksData);
   });
-  console.log(nodesData[0]);
   return (
     <div>
       <svg width="800" height="800">
