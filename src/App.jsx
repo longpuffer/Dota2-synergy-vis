@@ -5,28 +5,22 @@ function App() {
   const [nodesData, setNodesData] = useState([
     {
       id: 0,
-      x: 36.525217544878785,
-      y: 1.2182019826444623,
       r: 30,
       text: "Node0",
     },
     {
       id: 1,
-      x: 580.9377888596799,
-      y: 136.54838570454584,
       r: 30,
       text: "Node1",
     },
     {
       id: 2,
-      x: 59.23939929825366,
-      y: 347.60311002719465,
       r: 30,
       text: "Node2",
     },
-    { id: 3, x: 579.404960455471, y: 441.7082456111059, r: 30, text: "Node3" },
-    { id: 4, x: 15.97668907608214, y: 501.5224767929481, r: 30, text: "Node4" },
-    { id: 5, x: 540.5084760064832, y: 495.2584416123257, r: 30, text: "Node5" },
+    { id: 3, r: 30, text: "Node3" },
+    { id: 4, r: 30, text: "Node4" },
+    { id: 5, r: 30, text: "Node5" },
     {
       id: 6,
       x: 149.98390958868998,
@@ -64,7 +58,7 @@ function App() {
   useEffect(() => {
     const startSimulation = (nodes, links) => {
       const simulation = d3
-        .forceSimulation(nodes)
+        .forceSimulation()
         .force(
           "collide",
           d3
@@ -75,27 +69,18 @@ function App() {
             .strength(0.3)
             .iterations(32)
         )
-        .force("charge", d3.forceManyBody())
+        .force("charge", d3.forceManyBody().strength(-400))
         .force("center", d3.forceCenter(width / 2, height / 2))
-        .force(
-          "x",
-          d3
-            .forceX()
-            .x(width / 2)
-            .strength(0.2)
-        )
-        .force(
-          "y",
-          d3
-            .forceY()
-            .y(height / 2)
-            .strength(0.2)
-        )
+        .force("x", d3.forceX().x(width / 2))
+        .force("y", d3.forceY().y(height / 2))
         .force(
           "link",
           d3
             .forceLink()
             .id((d) => d.id)
+            .distance(function (d) {
+              return d.len * 4;
+            })
             .iterations(1)
         );
       simulation.nodes(nodes).on("tick", ticked);
@@ -113,6 +98,16 @@ function App() {
           return (
             <g key={index}>
               <circle cx={data.x} cy={data.y} r={data.r} fill="blue"></circle>
+              <text
+                textAnchor="middle"
+                stroke="black"
+                fill="Red"
+                fontSize={"20px"}
+                x={data.x}
+                y={data.y}
+              >
+                {data.id}
+              </text>
             </g>
           );
         })}
